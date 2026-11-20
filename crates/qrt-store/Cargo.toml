@@ -1,0 +1,22 @@
+[package]
+name = "qrt-store"
+description = "Repository traits and the encrypted SQLite (SQLCipher) implementation."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+jiff.workspace = true
+qrt-domain.workspace = true
+qrt-secrets.workspace = true
+rusqlite.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true
