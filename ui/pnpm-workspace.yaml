@@ -1,0 +1,4 @@
+# Supply-chain guard: never install a package version published less than
+# 3 days ago (matches the Dependabot cooldown in .github/dependabot.yml).
+# Gives the ecosystem time to catch compromised or broken releases.
+minimumReleaseAge: 4320

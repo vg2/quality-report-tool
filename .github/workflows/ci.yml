@@ -59,13 +59,21 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: "1.100.0"
-      - name: Generate SBOMs (CycloneDX)
+      - name: Generate Rust SBOMs (CycloneDX)
         run: |
           cargo install cargo-cyclonedx --locked
           cargo cyclonedx --format json --all
           mkdir -p sbom
           find . -name '*.cdx.json' -not -path './target/*' -not -path './sbom/*' -exec mv {} sbom/ \;
-          (cd ui && npx --yes @cyclonedx/cyclonedx-npm@4 --output-file ../sbom/ui.cdx.json)
+      # Syft reads pnpm-lock.yaml directly (cyclonedx-npm relies on `npm ls`,
+      # which does not understand pnpm's node_modules layout).
+      - name: Generate UI SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          path: ui
+          format: cyclonedx-json
+          output-file: sbom/ui.cdx.json
+          upload-artifact: false
       - uses: actions/upload-artifact@v4
         with:
           name: sbom
